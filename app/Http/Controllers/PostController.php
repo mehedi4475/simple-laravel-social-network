@@ -18,8 +18,6 @@ class PostController extends Controller{
         $this->validate($request, [
            'body'   => 'required | min:15 | max:1000' 
         ]);
-        
-        
         $post = new Post();
         $post->body = $request['body'];
         $message = "Not Successfully Insert";
@@ -31,19 +29,19 @@ class PostController extends Controller{
     
     
     
+    
     /* Delete Post */
     
-    public function getDeletePost($post_id){
-        
+    public function getDeletePost(Request $request){
+        $post_id = $request['postId'];
         $post = Post::where('id', $post_id)->first();
-        if(Auth::user() != $post->user){
-            
+        if(Auth::user() == $post->user){
+            $message = 'Not Successfully Delete';
+            if($post->delete()){
+                $message = 'Successfully Delete';
+            }
+            return $message;
         }
-        $message = 'Not Successfully Delete';
-        if($post->delete()){
-            $message = 'Successfully Delete';
-        }
-        return redirect()->route('dashboard')->with(['message' => $message]);
     }
     
     
@@ -55,7 +53,6 @@ class PostController extends Controller{
         $this->validate($request, [
             'body'  => 'required'
         ]);
-        
         $post = Post::find($request['postId']);
         $post->body = $request['body'];
         $post->update();
@@ -70,20 +67,13 @@ class PostController extends Controller{
     public function postLikePost(Request $request){
         $post_id = $request['postId'];
         $is_like = $request['isLike'] === 'true';
-        
         $update = false;
         $post = Post::find($post_id);
-        
         if(!$post){
             return null;
         }
-        
         $user = Auth::user();
-        
-        
         $like = $user->likes()->where('post_id', $post_id)->first();
-        
-
         if($like){
             $already_like = $like->like;
             $update = true;
@@ -91,10 +81,8 @@ class PostController extends Controller{
                 $like->delete();
                 return null;
             }
-            
         }
-        else{
-            
+        else{     
             $like = new Like();
         }
         
@@ -110,31 +98,4 @@ class PostController extends Controller{
         }
         return null;
     }
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
-
-

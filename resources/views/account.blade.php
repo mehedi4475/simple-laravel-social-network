@@ -31,5 +31,4 @@
             </div>
         </section>
     @endif
-
 @endsection

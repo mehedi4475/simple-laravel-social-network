@@ -13,7 +13,6 @@ $('.post').find('.interaction').find('.edit').on('click', function(event){
     $('#edit-modal').modal();
 });
 
-
 $('#model-save').on('click', function(){
     $.ajax({
         method  : 'POST',
@@ -39,7 +38,6 @@ $('.like').click('on', function(event){
     event.preventDefault();
     postId = event.target.parentNode.parentNode.dataset['postid'];
     var isLike = event.target.previousElementSibling == null;
-    
     $.ajax({
         method: 'POST',
         url: urlLike,
@@ -67,26 +65,31 @@ $('.like').click('on', function(event){
 
 
 
+//Delete Confirm
 
+$('.delete').click('on', function(event){
+    event.preventDefault();
+    postId = event.target.parentNode.parentNode.dataset['postid'];
+    if(confirm("Are you sure to Delete?")){
+        $.ajax({
+            method: 'POST',
+            url: urlDelete,
+            data: { postId: postId, _token: token },
+            success: function(msg){
+                //alert(msg);
+                
+                postBodyElement = event.target.parentNode.parentNode;
+                
+                postBodyElement.style.display = 'none';
+                
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert('Some Error');
+            }
+        });    
+    }
+    else{
+        return null;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});

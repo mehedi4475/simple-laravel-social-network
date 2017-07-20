@@ -15,7 +15,6 @@ class UserController extends Controller{
     /* Dashboard */
     public function getDashboard(){
         $posts = Post::orderBy('created_at', 'desc')->get();
-        
         return view('dashboard')->with(['posts' => $posts]);
     }
     
@@ -32,13 +31,11 @@ class UserController extends Controller{
         $email = $request['email'];
         $first_name = $request['first_name'];
         $password = bcrypt($request['password']);
-        
         $user = new User();
         $user->email = $email;
         $user->first_name = $first_name;
         $user->password = $password;
         $user->save();
-        
         return redirect()->route('dashboard');
     }
     
@@ -79,13 +76,11 @@ class UserController extends Controller{
     
     
     
-    
     /* Account */
     
     public function getAccount(){
         return view('account', ['user' => Auth::user()]);
     }
-    
     
     
     
@@ -96,11 +91,9 @@ class UserController extends Controller{
         $this->validate($request, [
             'first_name'    => 'required | max:120'
         ]);
-        
         $user = Auth::user();
         $user->first_name = $request['first_name'];
         $user->update();
-        
         $file = $request->file('image');
         $filename = $request['first_name']. '-' . $user->id . '.jpg';
         if($file){

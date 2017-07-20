@@ -7,48 +7,47 @@
 @section('content')
     @include('includes.errors-message')
     <section class="row new-post">
-         <div class="col-md-6 col-md-offset-3">
-             <header>
+        <div class="col-md-6 col-md-offset-3">
+            <header>
                  <h3>What do you have to say?</h3>
-             </header>
-             <form action="{{ route('post.create') }}" method="post">
+            </header>
+            <form action="{{ route('post.create') }}" method="post">
                  <div class="form-group">
                      <textarea name="body" id="new-post" placeholder="New post" cols="30" rows="5" class="form-control"></textarea>
                  </div>
                  <input type="hidden" name="_token" value="{{ Session::token() }}">
                  <button class="btn btn-primary" type="submit">Create Post</button>
-             </form>
-         </div>
-     </section>
+            </form>
+        </div>
+    </section>
  
- <section class="row posts">
-     <div class="col-md-6 col-md-offset-3">
-         <header>
-             <h3>What other people say...</h3>
-         </header>
-            @foreach($posts as $post)
-                <article class="post" data-postid="{{ $post->id }}">
-                    <p>{{ $post->body }}</p>
-                    <div class="info">
-                         Posted by {{ $post->user->first_name }} on {{ $post->created_at }}
-                    </div>
-                    <div class="interaction">
-                        <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'}}</a> | 
-                        <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike'}}</a>
-                        
-                        @if(Auth::user() == $post->user)
-                            | <a class="edit" href="">Edit</a>
-                            | <a href="{{ URL::to('/delete-post', ['post_id' => $post->id]) }}">Delete</a>
-                        @endif
-                         
-                    </div>
-                </article>
-            @endforeach
-         
-     </div>
- </section>
+    <section class="row posts">
+        <div class="col-md-6 col-md-offset-3">
+            <header>
+                <h3>What other people say...</h3>
+            </header>
+                @foreach($posts as $post)
+                    <article class="post" data-postid="{{ $post->id }}">
+                        <p>{{ $post->body }}</p>
+                        <div class="info">
+                             Posted by {{ $post->user->first_name }} on {{ $post->created_at }}
+                        </div>
+                        <div class="interaction">
+                            <a href="" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'}}</a> | 
+                            <a href="" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike'}}</a>
+                            @if(Auth::user() == $post->user)
+                                | <a class="edit" href="">Edit</a>
+                                | <a href="" class="delete">Delete</a>
+                            @endif
+                        </div>
+                    </article>
+                @endforeach
+
+        </div>
+    </section>
  
 
+   
     <!-- Edit Model -->
     
     <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
@@ -78,7 +77,7 @@
         var token = '{{ Session::token() }}';
         var url = '{{ route('edit') }}';
         var urlLike = '{{ route('like') }}';
+        var urlDelete = '{{ URL::to('/delete-post') }}';
     </script>
+    
 @endsection
-
-

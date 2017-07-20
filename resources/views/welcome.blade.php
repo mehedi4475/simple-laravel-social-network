@@ -1,11 +1,9 @@
 @extends('layouts.master')
 
 
-
 @section('title')
     Simple Laravel Social Network - 1
 @endsection
-
 
 
 @section('content')
@@ -27,8 +25,7 @@
                     <input class="form-control" type="password" name="password" id="password">
                 </div>
                 <input type="hidden" name="_token" value="{{ Session::token() }}">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                
+                <button type="submit" class="btn btn-primary">Submit</button>    
             </form>
         </div>
         <div class="col-md-6">
